@@ -1,0 +1,76 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	Development	//
+Base	database.py	/^Base = declarative_base()$/;"	v
+Base	models.py	/^from .database import Base$/;"	i
+BaseModel	schemas.py	/^from pydantic import BaseModel$/;"	i
+Column	models.py	/^from sqlalchemy import Column, ForeignKey, Integer, String$/;"	i
+Config	schemas.py	/^    class Config:$/;"	c	class:Sched
+Config	schemas.py	/^    class Config:$/;"	c	class:User
+Depends	main.py	/^from fastapi import Depends, FastAPI$/;"	i
+FastAPI	main.py	/^from fastapi import Depends, FastAPI$/;"	i
+ForeignKey	models.py	/^from sqlalchemy import Column, ForeignKey, Integer, String$/;"	i
+Integer	models.py	/^from sqlalchemy import Column, ForeignKey, Integer, String$/;"	i
+List	main.py	/^from typing import List$/;"	i
+List	schemas.py	/^from typing import List$/;"	i
+Meeting	schemas.py	/^class Meeting(BaseModel):$/;"	c
+SQLALCHEMY_DATABASE_URL	database.py	/^SQLALCHEMY_DATABASE_URL = "sqlite:\/\/\/.\/must.db"$/;"	v
+Sched	models.py	/^class Sched(Base):$/;"	c
+Sched	schemas.py	/^class Sched(SchedBase):$/;"	c
+SchedBase	schemas.py	/^class SchedBase(BaseModel):$/;"	c
+SchedCreate	schemas.py	/^class SchedCreate(SchedBase):$/;"	c
+Session	crud.py	/^from sqlalchemy.orm import Session$/;"	i
+Session	main.py	/^from sqlalchemy.orm import Session$/;"	i
+SessionLocal	database.py	/^SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)$/;"	v
+SessionLocal	main.py	/^from .database import SessionLocal, engine$/;"	i
+String	models.py	/^from sqlalchemy import Column, ForeignKey, Integer, String$/;"	i
+User	models.py	/^class User(Base):$/;"	c
+User	schemas.py	/^class User(UserBase):$/;"	c
+UserBase	schemas.py	/^class UserBase(BaseModel):$/;"	c
+UserCreate	schemas.py	/^class UserCreate(UserBase):$/;"	c
+__tablename__	models.py	/^    __tablename__ = "scheds"$/;"	v	class:Sched
+__tablename__	models.py	/^    __tablename__ = "users"$/;"	v	class:User
+app	main.py	/^app = FastAPI()$/;"	v
+busy_end	models.py	/^    busy_end = Column(String, index=True)$/;"	v	class:Sched
+busy_start	models.py	/^    busy_start = Column(String, index=True)$/;"	v	class:Sched
+client_to_utc	main.py	/^def client_to_utc(data):$/;"	f
+create_engine	database.py	/^from sqlalchemy import create_engine$/;"	i
+create_user	crud.py	/^def create_user(db: Session, data_id: str, name: str):$/;"	f
+create_user_sched	crud.py	/^def create_user_sched(db: Session, busy_start: str,$/;"	f
+crud	main.py	/^from . import crud, models, schemas$/;"	i
+data_id	models.py	/^    data_id = Column(String, index=True)$/;"	v	class:User
+datetime	main.py	/^from datetime import datetime, timedelta$/;"	i
+datetime_range	main.py	/^def datetime_range(start, end, delta):$/;"	f
+dateutil	main.py	/^import dateutil.parser$/;"	i
+declarative_base	database.py	/^from sqlalchemy.ext.declarative import declarative_base$/;"	i
+engine	database.py	/^engine = create_engine($/;"	v
+engine	main.py	/^from .database import SessionLocal, engine$/;"	i
+get_db	main.py	/^def get_db():$/;"	f
+get_user	crud.py	/^def get_user(db: Session, data_id: int):$/;"	f
+get_users	crud.py	/^def get_users(db: Session):$/;"	f
+id	models.py	/^    id = Column(Integer, primary_key=True, index=True)$/;"	v	class:Sched
+id	models.py	/^    id = Column(Integer, primary_key=True, index=True)$/;"	v	class:User
+is_time	main.py	/^def is_time(date):$/;"	f
+meetings	main.py	/^def meetings($/;"	f
+models	crud.py	/^from . import models$/;"	i
+models	main.py	/^from . import crud, models, schemas$/;"	i
+name	models.py	/^    name = Column(String, index=True)$/;"	v	class:User
+orm_mode	schemas.py	/^        orm_mode = True$/;"	v	class:Sched.Config
+orm_mode	schemas.py	/^        orm_mode = True$/;"	v	class:User.Config
+owner	models.py	/^    owner = relationship("User", back_populates="scheds")$/;"	v	class:Sched
+owner_id	models.py	/^    owner_id = Column(String, ForeignKey("users.data_id"))$/;"	v	class:Sched
+parser	main.py	/^import dateutil.parser$/;"	i
+pathlib	main.py	/^import pathlib$/;"	i
+pd	main.py	/^import pandas as pd$/;"	i
+pytz	main.py	/^import pytz$/;"	i
+read_users	main.py	/^def read_users(skip: int = 0, limit: int = 999999,$/;"	f
+relationship	models.py	/^from sqlalchemy.orm import relationship$/;"	i
+scheds	models.py	/^    scheds = relationship("Sched", back_populates="owner")$/;"	v	class:User
+schemas	main.py	/^from . import crud, models, schemas$/;"	i
+sessionmaker	database.py	/^from sqlalchemy.orm import sessionmaker$/;"	i
+timedelta	main.py	/^from datetime import datetime, timedelta$/;"	i
+update_db	main.py	/^def update_db(db: Session = Depends(get_db)):$/;"	f
+utc_to_client	main.py	/^def utc_to_client(data, timezone):$/;"	f
