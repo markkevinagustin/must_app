@@ -8,8 +8,6 @@ RANGE = 30
 
 
 def validate(data, timezone, office_hours, meeting_length):
-    # validations for  meetings that start every whole and half hour, e.g. 08.00, 08.30, 09.00, etc.
-
     earliest = data[0]
     latest = data[1]
 
@@ -19,14 +17,8 @@ def validate(data, timezone, office_hours, meeting_length):
     inside_left_bound = office_start.time()  <=  earliest.time()
     inside_right_bound = office_end.time() >= latest.time()
 
-    #earliest_plus_meeting_length = earliest + timedelta(minutes=meeting_length)
-    #earliest_with_allowance = earliest_plus_meeting_length.time() <= office_end.time()
-
     earliest_plus_meeting_length = earliest + timedelta(minutes=meeting_length)
     earliest_with_allowance = earliest_plus_meeting_length <= office_end
-
-    #latest_plus_meeting_length = latest + timedelta(minutes=meeting_length)
-    #latest_with_allowance = latest_plus_meeting_length.time() <= office_end.time()
 
     latest_plus_meeting_length = latest + timedelta(minutes=meeting_length)
     latest_with_allowance = latest_plus_meeting_length <= office_end
@@ -170,12 +162,10 @@ def suggest_sched(data, meeting_length):
     suggested_schedules = []
     for item in data:
         minutes = 0
-        #for is_last_element, i in signal_last(range(length)):
         for i in range(length):
             minutes += 30
             item_datetime_plus_meeting_length = datetime.strptime(item, FMT) + timedelta(minutes=minutes)
             if item_datetime_plus_meeting_length.strftime(FMT) in data:
-                #if minutes == meeting_length and is_last_element:
                 if minutes == meeting_length:
                     suggested_schedules.append(str(item) + " - " + item_datetime_plus_meeting_length.strftime(FMT))
             elif item_datetime_plus_meeting_length.strftime(FMT) not in data:
@@ -197,7 +187,6 @@ def build_suggested_schedules(crud, db, user_id,
                               timezone, daily_scheds, requested_meeting_scheds, meeting_length):
     user = crud.get_user(db, data_id=user_id)
 
-    # unavailable_scheds_list
     schedules_db = [crud.get_scheds(db, user_id)]
     unavailable_scheds = build_unavailable_scheds(schedules_db, office_hours, earliest_latest_datetime, timezone)
 

@@ -67,7 +67,6 @@ engine	main.py	/^from .database import SessionLocal, engine$/;"	i
 get_db	main.py	/^def get_db():$/;"	f
 get_scheds	crud.py	/^def get_scheds(db: Session, data_id: int):$/;"	f
 get_user	crud.py	/^def get_user(db: Session, data_id: int):$/;"	f
-get_users	crud.py	/^def get_users(db: Session):$/;"	f
 id	models.py	/^    id = Column(Integer, primary_key=True, index=True)$/;"	v	class:Sched
 id	models.py	/^    id = Column(Integer, primary_key=True, index=True)$/;"	v	class:User
 is_time	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_suggested_schedules$/;"	i
