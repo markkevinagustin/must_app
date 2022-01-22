@@ -37,7 +37,7 @@ def update_db(db: Session = Depends(get_db)):
         crud.create_user_sched(
             db=db, busy_start=sched[1], busy_end=sched[2], data_id=sched[0]
         )
-    return "Success"
+    return ["Database update Success"]
 
 
 @app.post("/suggestion_individual/")
