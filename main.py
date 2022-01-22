@@ -21,7 +21,7 @@ def get_db():
         db.close()
 
 
-@app.get("/update_db/", response_model=schemas.User)
+@app.get("/update_db/")
 def update_db(db: Session = Depends(get_db)):
     filename = str(pathlib.Path(__file__).parent.resolve()) + "/freebusy.txt"
     df = pd.read_csv(filename, sep=";", header=None)
