@@ -66,7 +66,9 @@ def meetings(meeting: schemas.Meeting, db: Session = Depends(get_db)):
     daily_scheds = build_daily_scheds(earliest_latest_datetime, office_hours)
     # daily_scheds
 
-    user_id = user_ids[0]
-    return build_suggested_schedules(crud, db, user_id,
-                              office_hours, earliest_latest_datetime,
-                              timezone, daily_scheds, requested_meeting_scheds, meeting_length)
+    suggested_schedules_all_users = [
+           build_suggested_schedules(crud, db, user,
+              office_hours, earliest_latest_datetime,
+              timezone, daily_scheds, requested_meeting_scheds, meeting_length)
+           for user in user_ids]
+    return suggested_schedules_all_users
