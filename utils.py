@@ -70,23 +70,22 @@ def daterange_daily(start, end, delta, office_hours):
             current += delta
 
 def busy_days_db(data, earliest_latest, timezone):
-    busy_start = datetime.strptime(str(data.busy_start), FMT).astimezone(pytz.UTC)
+    busy_start_datetime = datetime.strptime(str(data.busy_start), FMT)
+    busy_start = pytz.timezone("UTC").localize(busy_start_datetime)
     earliest = earliest_latest[0]
     latest = earliest_latest[1]
-    if earliest.date() == busy_start.date() or latest.date() == busy_start.date():
-        data.busy_start = utc_to_client(data.busy_start, timezone).strftime(FMT)
-        data.busy_end = utc_to_client(data.busy_end, timezone).strftime(FMT)
-        return data
+    return data if earliest.date() == busy_start.date() or latest.date() == busy_start.date() else None
+
 
 def build_unavailable_scheds(schedules_db, office_hours, earliest_latest_datetime, timezone):
     unavailable_scheds = [busy_days_db(sched, earliest_latest_datetime, timezone) for sched in schedules_db[0]]
     unavailable_scheds_clean = [clean for clean in unavailable_scheds if clean]
     unavailable_scheds_list_unflattened = []
     for unavailable_sched in unavailable_scheds_clean:
-        busy_start = datetime.strptime(str(unavailable_sched.busy_start), FMT).astimezone(pytz.UTC)
-        busy_end = datetime.strptime(str(unavailable_sched.busy_end), FMT).astimezone(pytz.UTC)
+        busy_start = utc_to_client(unavailable_sched.busy_start, timezone)
+        busy_end =   utc_to_client(unavailable_sched.busy_end, timezone)
         unavailable_scheds_list_unflattened.append([
-            utc_to_client_str(dt, timezone)
+            dt.strftime(FMT)
             for dt in datetime_range(
                 busy_start,
                 busy_end,
@@ -132,8 +131,7 @@ def datetime_range(start, end, delta, office_hours):
 
 def convert_to_datetime(data, timezone):
     data_datetime = datetime.strptime(str(data), FMT)
-    return data_datetime.astimezone(pytz.timezone(timezone))
-
+    return pytz.timezone(timezone).localize(data_datetime)
 
 def is_time(date):
     try:
@@ -149,13 +147,12 @@ def client_to_utc(data):
 
 
 def utc_to_client(data, timezone):
-    utc_timezone = pytz.timezone("UTC")
     data_datetime = dateutil.parser.parse(data)
-    parse_data_utc = utc_timezone.localize(data_datetime)
+    parse_data_utc = pytz.timezone("UTC").localize(data_datetime)
     return parse_data_utc.astimezone(pytz.timezone(timezone))
 
 
 def utc_to_client_str(data, timezone):
     data_str = data.strftime(FMT)
     output = utc_to_client(data_str, timezone)
-    return datetime.strftime(output, FMT)
+    return output.strftime(FMT)
