@@ -39,8 +39,8 @@ def update_db(db: Session = Depends(get_db)):
         )
 
 
-@app.post("/meetings/")
-def meetings(meeting: schemas.Meeting, db: Session = Depends(get_db)):
+@app.post("/suggestion_individual/")
+def suggestion_individual(meeting: schemas.Meeting, db: Session = Depends(get_db)):
     # initialize variables
     user_ids = meeting.user_ids
     meeting_length = int(meeting.meeting_length)
@@ -72,3 +72,30 @@ def meetings(meeting: schemas.Meeting, db: Session = Depends(get_db)):
               timezone, daily_scheds, requested_meeting_scheds, meeting_length)
            for user in user_ids]
     return suggested_schedules_all_users
+
+
+@app.post("/suggestion_all/")
+def suggestion_all(meeting: schemas.Meeting, db: Session = Depends(get_db)):
+    individual_schedules = suggestion_individual(meeting=meeting, db=db)
+
+    combined_schedules_unflattened = [ 
+        individual_schedule['suggested_schedules']
+        for individual_schedule in
+        individual_schedules
+    ] 
+
+    individual_scheds  = [item
+                          for sublist in combined_schedules_unflattened
+                          for item in sublist
+                          ]
+
+    combined_schedules = [set([item
+                          for sublist in individual_scheds 
+                          for item in sublist
+                          ])]
+
+    names = {name['user_id']: name['username'] for name in individual_schedules}
+    schedules = [set(combined_schedules[0]).intersection(*individual_scheds)]
+    names['suggested_schedules_all_users'] = schedules
+
+    return names

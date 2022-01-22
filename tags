@@ -72,7 +72,6 @@ id	models.py	/^    id = Column(Integer, primary_key=True, index=True)$/;"	v	clas
 id	models.py	/^    id = Column(Integer, primary_key=True, index=True)$/;"	v	class:User
 is_time	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_suggested_schedules$/;"	i
 is_time	utils.py	/^def is_time(date):$/;"	f
-meetings	main.py	/^def meetings(meeting: schemas.Meeting, db: Session = Depends(get_db)):$/;"	f
 models	crud.py	/^from . import models$/;"	i
 models	main.py	/^from . import crud, models, schemas$/;"	i
 name	models.py	/^    name = Column(String, index=True)$/;"	v	class:User
@@ -90,6 +89,8 @@ schemas	main.py	/^from . import crud, models, schemas$/;"	i
 sessionmaker	database.py	/^from sqlalchemy.orm import sessionmaker$/;"	i
 signal_last	utils.py	/^def signal_last(it:Iterable[Any]) -> Iterable[Tuple[bool, Any]]:$/;"	f
 suggest_sched	utils.py	/^def suggest_sched(data, meeting_length): $/;"	f
+suggestion_all	main.py	/^def suggestion_all(meeting: schemas.Meeting, db: Session = Depends(get_db)):$/;"	f
+suggestion_individual	main.py	/^def suggestion_individual(meeting: schemas.Meeting, db: Session = Depends(get_db)):$/;"	f
 timedelta	utils.py	/^from datetime import datetime, timedelta$/;"	i
 update_db	main.py	/^def update_db(db: Session = Depends(get_db)):$/;"	f
 utc_to_client	utils.py	/^def utc_to_client(data, timezone):$/;"	f
