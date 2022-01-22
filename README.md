@@ -1,16 +1,5 @@
 # How to install
 
-### you can also try online using **you must have an account first**
-
-https://www.gitpod.io/#https://github.com/markkevinagustin/must_app
-
-after initialization
-```console
-pip install -r requirements.txt
-cd ../
-uvicorn must_app.main:app --reload
-```
-
 ### clone repo
 
 ```console
@@ -21,6 +10,18 @@ git clone https://github.com/markkevinagustin/must_app.git
 
 ```console
 pip install -r requirements.txt
+```
+
+# you can also try online using gitpod.io
+**you must have an account first**
+
+https://www.gitpod.io/#https://github.com/markkevinagustin/must_app
+
+after initialization
+```console
+pip install -r requirements.txt
+cd ../
+uvicorn must_app.main:app --reload
 ```
 
 ### Run the server
