@@ -38,17 +38,18 @@ UserCreate	schemas.py	/^class UserCreate(UserBase):$/;"	c
 __tablename__	models.py	/^    __tablename__ = "scheds"$/;"	v	class:Sched
 __tablename__	models.py	/^    __tablename__ = "users"$/;"	v	class:User
 app	main.py	/^app = FastAPI()$/;"	v
-build_daily_scheds	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_unavailable_scheds, suggest_sched$/;"	i
+build_daily_scheds	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_suggested_schedules$/;"	i
 build_daily_scheds	utils.py	/^def build_daily_scheds(earliest_latest_datetime, office_hours):$/;"	f
-build_requested_meeting_scheds	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_unavailable_scheds, suggest_sched$/;"	i
+build_requested_meeting_scheds	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_suggested_schedules$/;"	i
 build_requested_meeting_scheds	utils.py	/^def build_requested_meeting_scheds(earliest_latest_datetime, office_hours, meeting_length):$/;"	f
-build_unavailable_scheds	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_unavailable_scheds, suggest_sched$/;"	i
+build_suggested_schedules	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_suggested_schedules$/;"	i
+build_suggested_schedules	utils.py	/^def build_suggested_schedules(crud, db, user_id,$/;"	f
 build_unavailable_scheds	utils.py	/^def build_unavailable_scheds(schedules_db, office_hours, earliest_latest_datetime, timezone):$/;"	f
 busy_days_db	utils.py	/^def busy_days_db(data, earliest_latest, timezone):$/;"	f
 busy_end	models.py	/^    busy_end = Column(String, index=True)$/;"	v	class:Sched
 busy_start	models.py	/^    busy_start = Column(String, index=True)$/;"	v	class:Sched
 client_to_utc	utils.py	/^def client_to_utc(data):$/;"	f
-convert_to_datetime	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_unavailable_scheds, suggest_sched$/;"	i
+convert_to_datetime	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_suggested_schedules$/;"	i
 convert_to_datetime	utils.py	/^def convert_to_datetime(data, timezone):$/;"	f
 create_engine	database.py	/^from sqlalchemy import create_engine$/;"	i
 create_user	crud.py	/^def create_user(db: Session, data_id: str, name: str):$/;"	f
@@ -69,7 +70,7 @@ get_user	crud.py	/^def get_user(db: Session, data_id: int):$/;"	f
 get_users	crud.py	/^def get_users(db: Session):$/;"	f
 id	models.py	/^    id = Column(Integer, primary_key=True, index=True)$/;"	v	class:Sched
 id	models.py	/^    id = Column(Integer, primary_key=True, index=True)$/;"	v	class:User
-is_time	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_unavailable_scheds, suggest_sched$/;"	i
+is_time	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_suggested_schedules$/;"	i
 is_time	utils.py	/^def is_time(date):$/;"	f
 meetings	main.py	/^def meetings(meeting: schemas.Meeting, db: Session = Depends(get_db)):$/;"	f
 models	crud.py	/^from . import models$/;"	i
@@ -88,11 +89,10 @@ scheds	models.py	/^    scheds = relationship("Sched", back_populates="owner")$/;
 schemas	main.py	/^from . import crud, models, schemas$/;"	i
 sessionmaker	database.py	/^from sqlalchemy.orm import sessionmaker$/;"	i
 signal_last	utils.py	/^def signal_last(it:Iterable[Any]) -> Iterable[Tuple[bool, Any]]:$/;"	f
-suggest_sched	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_unavailable_scheds, suggest_sched$/;"	i
 suggest_sched	utils.py	/^def suggest_sched(data, meeting_length): $/;"	f
 timedelta	utils.py	/^from datetime import datetime, timedelta$/;"	i
 update_db	main.py	/^def update_db(db: Session = Depends(get_db)):$/;"	f
 utc_to_client	utils.py	/^def utc_to_client(data, timezone):$/;"	f
 utc_to_client_str	utils.py	/^def utc_to_client_str(data, timezone):$/;"	f
-validate	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_unavailable_scheds, suggest_sched$/;"	i
+validate	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_suggested_schedules$/;"	i
 validate	utils.py	/^def validate(data, timezone, office_hours, meeting_length):$/;"	f

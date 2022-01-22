@@ -191,3 +191,34 @@ def signal_last(it:Iterable[Any]) -> Iterable[Tuple[bool, Any]]:
         yield False, ret_var
         ret_var = val
     yield True, ret_var
+
+def build_suggested_schedules(crud, db, user_id,
+                              office_hours, earliest_latest_datetime,
+                              timezone, daily_scheds, requested_meeting_scheds, meeting_length):
+    user = crud.get_user(db, data_id=user_id)
+
+    # unavailable_scheds_list
+    schedules_db = [crud.get_scheds(db, user_id)]
+    unavailable_scheds = build_unavailable_scheds(schedules_db, office_hours, earliest_latest_datetime, timezone)
+
+    remaining_scheds = [sched for sched in daily_scheds if sched not in unavailable_scheds]
+    possible_scheds  = [sched_ for sched_ in requested_meeting_scheds if sched_ in remaining_scheds]
+    suggested_scheds = suggest_sched(possible_scheds, meeting_length)
+
+    #PRINT THIS FOR DEBUGGING PURPOSES ONLY
+    #(["requested_meeting_scheds", requested_meeting_scheds],
+    #        ["daily_scheds", daily_scheds],
+    #        ["unavailable_scheds", unavailable_scheds],
+    #        ["daily_scheds - unavailable_scheds", remaining_scheds],
+    #        ["possible_scheds", possible_scheds],
+    #        ["suggested_scheds", suggested_scheds],
+    #        ["user_name", {"username": user.name,
+    #                       "user_id": user_id,
+    #                       "suggested_schedules": [suggested_scheds]
+    #                       }],
+    #        )
+
+    return {"username": user.name,
+                           "user_id": user_id,
+                           "suggested_schedules": [suggested_scheds]
+                           }
