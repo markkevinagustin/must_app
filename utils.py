@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 import dateutil.parser
 import pytz
+from typing import Iterable, Any, Tuple
 
 FMT = "%m/%d/%Y %I:%M:%S %p"
 RANGE = 30
@@ -18,11 +19,17 @@ def validate(data, timezone, office_hours, meeting_length):
     inside_left_bound = office_start.time()  <=  earliest.time()
     inside_right_bound = office_end.time() >= latest.time()
 
+    #earliest_plus_meeting_length = earliest + timedelta(minutes=meeting_length)
+    #earliest_with_allowance = earliest_plus_meeting_length.time() <= office_end.time()
+
     earliest_plus_meeting_length = earliest + timedelta(minutes=meeting_length)
-    earliest_with_allowance = earliest_plus_meeting_length.time() <= office_end.time()
+    earliest_with_allowance = earliest_plus_meeting_length <= office_end
+
+    #latest_plus_meeting_length = latest + timedelta(minutes=meeting_length)
+    #latest_with_allowance = latest_plus_meeting_length.time() <= office_end.time()
 
     latest_plus_meeting_length = latest + timedelta(minutes=meeting_length)
-    latest_with_allowance = latest_plus_meeting_length.time() <= office_end.time()
+    latest_with_allowance = latest_plus_meeting_length <= office_end
 
     earliest_minute = earliest.minute
     latest_minute = latest.minute
@@ -156,3 +163,31 @@ def utc_to_client_str(data, timezone):
     data_str = data.strftime(FMT)
     output = utc_to_client(data_str, timezone)
     return output.strftime(FMT)
+
+
+def suggest_sched(data, meeting_length): 
+    length = int(meeting_length) // int(30)
+    suggested_schedules = []
+    for item in data:
+        minutes = 0
+        #for is_last_element, i in signal_last(range(length)):
+        for i in range(length):
+            minutes += 30
+            item_datetime_plus_meeting_length = datetime.strptime(item, FMT) + timedelta(minutes=minutes)
+            if item_datetime_plus_meeting_length.strftime(FMT) in data:
+                #if minutes == meeting_length and is_last_element:
+                if minutes == meeting_length:
+                    suggested_schedules.append(str(item) + " - " + item_datetime_plus_meeting_length.strftime(FMT))
+            elif item_datetime_plus_meeting_length.strftime(FMT) not in data:
+                break
+    return suggested_schedules
+
+
+
+def signal_last(it:Iterable[Any]) -> Iterable[Tuple[bool, Any]]:
+    iterable = iter(it)
+    ret_var = next(iterable)
+    for val in iterable:
+        yield False, ret_var
+        ret_var = val
+    yield True, ret_var

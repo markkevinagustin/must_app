@@ -5,7 +5,7 @@ from . import crud, models, schemas
 from .database import SessionLocal, engine
 import pandas as pd
 import pathlib
-from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_unavailable_scheds
+from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_unavailable_scheds, suggest_sched
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -66,12 +66,30 @@ def meetings(meeting: schemas.Meeting, db: Session = Depends(get_db)):
     daily_scheds = build_daily_scheds(earliest_latest_datetime, office_hours)
     # daily_scheds
 
+    user_id = user_ids[0]
+
     # unavailable_scheds_list
-    schedules_db = [crud.get_scheds(db, user_ids[0])]
+    schedules_db = [crud.get_scheds(db, user_id)]
     unavailable_scheds = build_unavailable_scheds(schedules_db, office_hours, earliest_latest_datetime, timezone)
-   # unavailable_scheds_list
-   # 10:30, 11:00, 11:30, 4:30, 5:30
+    # unavailable_scheds_list
+    # 10:30, 11:00, 11:30, 4:30, 5:30
+
+    remaining_scheds = [sched for sched in daily_scheds if sched not in unavailable_scheds]
+
+    possible_scheds  = [sched_ for sched_ in requested_meeting_scheds if sched_ in remaining_scheds]
+    suggested_scheds = suggest_sched(possible_scheds, meeting_length)
+
+    user = crud.get_user(db, data_id=user_id)
+
 
     return (["requested_meeting_scheds", requested_meeting_scheds],
             ["daily_scheds", daily_scheds],
-            ["unavailable_scheds", unavailable_scheds])
+            ["unavailable_scheds", unavailable_scheds],
+            ["daily_scheds - unavailable_scheds", remaining_scheds],
+            ["possible_scheds", possible_scheds],
+            ["suggested_scheds", suggested_scheds],
+            ["user_name", {"username": user.name,
+                           "user_id": user_id,
+                           "suggested_schedules": [suggested_scheds]
+                           }],
+            )
