@@ -11,12 +11,13 @@ Column	models.py	/^from sqlalchemy import Column, ForeignKey, Integer, String$/;
 Config	schemas.py	/^    class Config:$/;"	c	class:Sched
 Config	schemas.py	/^    class Config:$/;"	c	class:User
 Depends	main.py	/^from fastapi import Depends, FastAPI$/;"	i
+FMT	utils.py	/^FMT = "%m\/%d\/%Y %I:%M:%S %p"$/;"	v
 FastAPI	main.py	/^from fastapi import Depends, FastAPI$/;"	i
 ForeignKey	models.py	/^from sqlalchemy import Column, ForeignKey, Integer, String$/;"	i
 Integer	models.py	/^from sqlalchemy import Column, ForeignKey, Integer, String$/;"	i
-List	main.py	/^from typing import List$/;"	i
 List	schemas.py	/^from typing import List$/;"	i
 Meeting	schemas.py	/^class Meeting(BaseModel):$/;"	c
+RANGE	utils.py	/^RANGE = 30$/;"	v
 SQLALCHEMY_DATABASE_URL	database.py	/^SQLALCHEMY_DATABASE_URL = "sqlite:\/\/\/.\/must.db"$/;"	v
 Sched	models.py	/^class Sched(Base):$/;"	c
 Sched	schemas.py	/^class Sched(SchedBase):$/;"	c
@@ -34,27 +35,40 @@ UserCreate	schemas.py	/^class UserCreate(UserBase):$/;"	c
 __tablename__	models.py	/^    __tablename__ = "scheds"$/;"	v	class:Sched
 __tablename__	models.py	/^    __tablename__ = "users"$/;"	v	class:User
 app	main.py	/^app = FastAPI()$/;"	v
+build_daily_scheds	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_unavailable_scheds$/;"	i
+build_daily_scheds	utils.py	/^def build_daily_scheds(earliest_latest_datetime, office_hours):$/;"	f
+build_requested_meeting_scheds	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_unavailable_scheds$/;"	i
+build_requested_meeting_scheds	utils.py	/^def build_requested_meeting_scheds(earliest_latest_datetime, office_hours, meeting_length):$/;"	f
+build_unavailable_scheds	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_unavailable_scheds$/;"	i
+build_unavailable_scheds	utils.py	/^def build_unavailable_scheds(schedules_db, office_hours, earliest_latest_datetime, timezone):$/;"	f
+busy_days_db	utils.py	/^def busy_days_db(data, earliest_latest, timezone):$/;"	f
 busy_end	models.py	/^    busy_end = Column(String, index=True)$/;"	v	class:Sched
 busy_start	models.py	/^    busy_start = Column(String, index=True)$/;"	v	class:Sched
-client_to_utc	main.py	/^def client_to_utc(data):$/;"	f
+client_to_utc	utils.py	/^def client_to_utc(data):$/;"	f
+convert_to_datetime	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_unavailable_scheds$/;"	i
+convert_to_datetime	utils.py	/^def convert_to_datetime(data, timezone):$/;"	f
 create_engine	database.py	/^from sqlalchemy import create_engine$/;"	i
 create_user	crud.py	/^def create_user(db: Session, data_id: str, name: str):$/;"	f
-create_user_sched	crud.py	/^def create_user_sched(db: Session, busy_start: str,$/;"	f
+create_user_sched	crud.py	/^def create_user_sched(db: Session, busy_start: str, busy_end: str, data_id: str):$/;"	f
 crud	main.py	/^from . import crud, models, schemas$/;"	i
 data_id	models.py	/^    data_id = Column(String, index=True)$/;"	v	class:User
-datetime	main.py	/^from datetime import datetime, timedelta$/;"	i
-datetime_range	main.py	/^def datetime_range(start, end, delta):$/;"	f
-dateutil	main.py	/^import dateutil.parser$/;"	i
+daterange_daily	utils.py	/^def daterange_daily(start, end, delta, office_hours):$/;"	f
+daterange_requested	utils.py	/^def daterange_requested(start, end, delta, office_hours, meeting_length):$/;"	f
+datetime	utils.py	/^from datetime import datetime, timedelta$/;"	i
+datetime_range	utils.py	/^def datetime_range(start, end, delta, office_hours):$/;"	f
+dateutil	utils.py	/^import dateutil.parser$/;"	i
 declarative_base	database.py	/^from sqlalchemy.ext.declarative import declarative_base$/;"	i
 engine	database.py	/^engine = create_engine($/;"	v
 engine	main.py	/^from .database import SessionLocal, engine$/;"	i
 get_db	main.py	/^def get_db():$/;"	f
+get_scheds	crud.py	/^def get_scheds(db: Session, data_id: int):$/;"	f
 get_user	crud.py	/^def get_user(db: Session, data_id: int):$/;"	f
 get_users	crud.py	/^def get_users(db: Session):$/;"	f
 id	models.py	/^    id = Column(Integer, primary_key=True, index=True)$/;"	v	class:Sched
 id	models.py	/^    id = Column(Integer, primary_key=True, index=True)$/;"	v	class:User
-is_time	main.py	/^def is_time(date):$/;"	f
-meetings	main.py	/^def meetings($/;"	f
+is_time	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_unavailable_scheds$/;"	i
+is_time	utils.py	/^def is_time(date):$/;"	f
+meetings	main.py	/^def meetings(meeting: schemas.Meeting, db: Session = Depends(get_db)):$/;"	f
 models	crud.py	/^from . import models$/;"	i
 models	main.py	/^from . import crud, models, schemas$/;"	i
 name	models.py	/^    name = Column(String, index=True)$/;"	v	class:User
@@ -62,15 +76,17 @@ orm_mode	schemas.py	/^        orm_mode = True$/;"	v	class:Sched.Config
 orm_mode	schemas.py	/^        orm_mode = True$/;"	v	class:User.Config
 owner	models.py	/^    owner = relationship("User", back_populates="scheds")$/;"	v	class:Sched
 owner_id	models.py	/^    owner_id = Column(String, ForeignKey("users.data_id"))$/;"	v	class:Sched
-parser	main.py	/^import dateutil.parser$/;"	i
+parser	utils.py	/^import dateutil.parser$/;"	i
 pathlib	main.py	/^import pathlib$/;"	i
 pd	main.py	/^import pandas as pd$/;"	i
-pytz	main.py	/^import pytz$/;"	i
-read_users	main.py	/^def read_users(skip: int = 0, limit: int = 999999,$/;"	f
+pytz	utils.py	/^import pytz$/;"	i
 relationship	models.py	/^from sqlalchemy.orm import relationship$/;"	i
 scheds	models.py	/^    scheds = relationship("Sched", back_populates="owner")$/;"	v	class:User
 schemas	main.py	/^from . import crud, models, schemas$/;"	i
 sessionmaker	database.py	/^from sqlalchemy.orm import sessionmaker$/;"	i
-timedelta	main.py	/^from datetime import datetime, timedelta$/;"	i
+timedelta	utils.py	/^from datetime import datetime, timedelta$/;"	i
 update_db	main.py	/^def update_db(db: Session = Depends(get_db)):$/;"	f
-utc_to_client	main.py	/^def utc_to_client(data, timezone):$/;"	f
+utc_to_client	utils.py	/^def utc_to_client(data, timezone):$/;"	f
+utc_to_client_str	utils.py	/^def utc_to_client_str(data, timezone):$/;"	f
+validate	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_unavailable_scheds$/;"	i
+validate	utils.py	/^def validate(data, timezone, office_hours, meeting_length):$/;"	f
