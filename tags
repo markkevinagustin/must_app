@@ -4,7 +4,6 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	Development	//
-Any	utils.py	/^from typing import Iterable, Any, Tuple$/;"	i
 Base	database.py	/^Base = declarative_base()$/;"	v
 Base	models.py	/^from .database import Base$/;"	i
 BaseModel	schemas.py	/^from pydantic import BaseModel$/;"	i
@@ -16,7 +15,6 @@ FMT	utils.py	/^FMT = "%m\/%d\/%Y %I:%M:%S %p"$/;"	v
 FastAPI	main.py	/^from fastapi import Depends, FastAPI$/;"	i
 ForeignKey	models.py	/^from sqlalchemy import Column, ForeignKey, Integer, String$/;"	i
 Integer	models.py	/^from sqlalchemy import Column, ForeignKey, Integer, String$/;"	i
-Iterable	utils.py	/^from typing import Iterable, Any, Tuple$/;"	i
 List	schemas.py	/^from typing import List$/;"	i
 Meeting	schemas.py	/^class Meeting(BaseModel):$/;"	c
 RANGE	utils.py	/^RANGE = 30$/;"	v
@@ -30,7 +28,6 @@ Session	main.py	/^from sqlalchemy.orm import Session$/;"	i
 SessionLocal	database.py	/^SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)$/;"	v
 SessionLocal	main.py	/^from .database import SessionLocal, engine$/;"	i
 String	models.py	/^from sqlalchemy import Column, ForeignKey, Integer, String$/;"	i
-Tuple	utils.py	/^from typing import Iterable, Any, Tuple$/;"	i
 User	models.py	/^class User(Base):$/;"	c
 User	schemas.py	/^class User(UserBase):$/;"	c
 UserBase	schemas.py	/^class UserBase(BaseModel):$/;"	c
@@ -43,7 +40,7 @@ build_daily_scheds	utils.py	/^def build_daily_scheds(earliest_latest_datetime, o
 build_requested_meeting_scheds	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_suggested_schedules$/;"	i
 build_requested_meeting_scheds	utils.py	/^def build_requested_meeting_scheds(earliest_latest_datetime, office_hours, meeting_length):$/;"	f
 build_suggested_schedules	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_suggested_schedules$/;"	i
-build_suggested_schedules	utils.py	/^def build_suggested_schedules(crud, db, user_id,$/;"	f
+build_suggested_schedules	utils.py	/^def build_suggested_schedules(db, user_id,$/;"	f
 build_unavailable_scheds	utils.py	/^def build_unavailable_scheds(schedules_db, office_hours, earliest_latest_datetime, timezone):$/;"	f
 busy_days_db	utils.py	/^def busy_days_db(data, earliest_latest, timezone):$/;"	f
 busy_end	models.py	/^    busy_end = Column(String, index=True)$/;"	v	class:Sched
@@ -55,6 +52,7 @@ create_engine	database.py	/^from sqlalchemy import create_engine$/;"	i
 create_user	crud.py	/^def create_user(db: Session, data_id: str, name: str):$/;"	f
 create_user_sched	crud.py	/^def create_user_sched(db: Session, busy_start: str, busy_end: str, data_id: str):$/;"	f
 crud	main.py	/^from . import crud, models, schemas$/;"	i
+crud	utils.py	/^from . import crud$/;"	i
 data_id	models.py	/^    data_id = Column(String, index=True)$/;"	v	class:User
 daterange_daily	utils.py	/^def daterange_daily(start, end, delta, office_hours):$/;"	f
 daterange_requested	utils.py	/^def daterange_requested(start, end, delta, office_hours, meeting_length):$/;"	f
@@ -86,13 +84,11 @@ relationship	models.py	/^from sqlalchemy.orm import relationship$/;"	i
 scheds	models.py	/^    scheds = relationship("Sched", back_populates="owner")$/;"	v	class:User
 schemas	main.py	/^from . import crud, models, schemas$/;"	i
 sessionmaker	database.py	/^from sqlalchemy.orm import sessionmaker$/;"	i
-signal_last	utils.py	/^def signal_last(it:Iterable[Any]) -> Iterable[Tuple[bool, Any]]:$/;"	f
 suggest_sched	utils.py	/^def suggest_sched(data, meeting_length): $/;"	f
 suggestion_all	main.py	/^def suggestion_all(meeting: schemas.Meeting, db: Session = Depends(get_db)):$/;"	f
 suggestion_individual	main.py	/^def suggestion_individual(meeting: schemas.Meeting, db: Session = Depends(get_db)):$/;"	f
 timedelta	utils.py	/^from datetime import datetime, timedelta$/;"	i
 update_db	main.py	/^def update_db(db: Session = Depends(get_db)):$/;"	f
 utc_to_client	utils.py	/^def utc_to_client(data, timezone):$/;"	f
-utc_to_client_str	utils.py	/^def utc_to_client_str(data, timezone):$/;"	f
 validate	main.py	/^from .utils import is_time, convert_to_datetime, validate, build_requested_meeting_scheds, build_daily_scheds, build_suggested_schedules$/;"	i
 validate	utils.py	/^def validate(data, timezone, office_hours, meeting_length):$/;"	f
